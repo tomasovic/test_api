@@ -1,0 +1,14 @@
+name: Test Self-Hosted Runner
+
+on:
+  workflow_dispatch:  # omogućava ručno pokretanje iz GitHub UI-ja
+
+jobs:
+  test:
+    runs-on: self-hosted  # koristi tvoj self-hosted runner
+    steps:
+      - name: Checkout koda
+        uses: actions/checkout@v4
+
+      - name: Test komanda
+        run: echo "Runner radi! Vreme: $(date)"
