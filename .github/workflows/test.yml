@@ -11,4 +11,4 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Test komanda
-        run: echo "Runner radi! Vreme: $(date)"
+        run: echo "Runner radi!"
