@@ -3,7 +3,7 @@ name: Build, Push, and Update K8s Manifest
 on:
   push:
     branches:
-      - master # Trigger workflow on pushes to the main branch
+      - master # Trigger workflow on pushes to the master branch
 
 jobs:
   build-and-push:
