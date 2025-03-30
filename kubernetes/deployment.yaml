@@ -17,27 +17,26 @@ spec:
     spec:
       containers:
       - name: test-api
-        image: ghcr.io/tomasovic/health-api:3c34d72
-        imagePullPolicy: Always
+        image: nginx:latest
         ports:
-        - containerPort: 5000
+        - containerPort: 80
         resources:
-          limits:
-            cpu: 500m
-            memory: 512Mi
           requests:
             cpu: 100m
             memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
         readinessProbe:
           httpGet:
-            path: /health
-            port: 5000
+            path: /
+            port: 80
           initialDelaySeconds: 5
           periodSeconds: 10
         livenessProbe:
           httpGet:
-            path: /health
-            port: 5000
+            path: /
+            port: 80
           initialDelaySeconds: 15
           periodSeconds: 20
       imagePullSecrets:
