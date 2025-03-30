@@ -17,10 +17,10 @@ spec:
     spec:
       containers:
       - name: test-api
-        image: ghcr.io/tomasovic/health-api:latest
+        image: ghcr.io/tomasovic/health-api:3c34d72
         imagePullPolicy: Always
         ports:
-        - containerPort: 8080
+        - containerPort: 5000
         resources:
           limits:
             cpu: 500m
@@ -31,13 +31,13 @@ spec:
         readinessProbe:
           httpGet:
             path: /health
-            port: 8080
+            port: 5000
           initialDelaySeconds: 5
           periodSeconds: 10
         livenessProbe:
           httpGet:
             path: /health
-            port: 8080
+            port: 5000
           initialDelaySeconds: 15
           periodSeconds: 20
       imagePullSecrets:
