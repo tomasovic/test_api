@@ -6,8 +6,8 @@ metadata:
   labels:
     app: test-api
   annotations:
-    argocd-image-updater.argoproj.io/image-list: ghcr.io/tomasovic/health-api
-    argocd-image-updater.argoproj.io/ghcr.io/tomasovic/health-api.tag-prefix: ""
+    argocd-image-updater.argoproj.io/image-list: test-api=ghcr.io/tomasovic/health-api
+    argocd-image-updater.argoproj.io/test-api.tag-prefix: ""
 spec:
   replicas: 1
   selector:
