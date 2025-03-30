@@ -35,7 +35,8 @@ jobs:
         with:
           images: ghcr.io/tomasovic/health-api
           tags: |
-            type=sha,prefix= # Use commit SHA as the tag
+            type=sha,prefix=
+            type=raw,value=latest
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
