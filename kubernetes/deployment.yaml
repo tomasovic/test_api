@@ -21,6 +21,7 @@ spec:
       containers:
       - name: test-api
         image: ghcr.io/tomasovic/health-api:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
         resources:
