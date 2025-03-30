@@ -3,10 +3,12 @@ kind: Service
 metadata:
   name: test-api
   namespace: test-api
+  labels:
+    app: test-api
 spec:
   selector:
     app: test-api
   ports:
   - port: 80
-    targetPort: 8080
+    targetPort: 5000
   type: ClusterIP 
