@@ -3,7 +3,7 @@ const app = express();
 const port = 5000;
 
 app.get("/", (req, res) => {
-  res.send("Hello from updated image! Testing ArgoCD Image Updater.");
+  res.send("MILAN!!!!!!!!!");
 });
 
 app.listen(port, () => {
