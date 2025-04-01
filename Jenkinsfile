@@ -1,12 +1,11 @@
-// Jenkinsfile (korigovano za agent)
+// Jenkinsfile (korigovano za checkout sa resetom i agent)
 
 pipeline {
-    // Definišemo da se SVI stage-evi izvršavaju na bilo kom dostupnom agentu
     agent any
 
-    // Definišemo parametre koji se koriste u pipeline-u
     environment {
-        DEPLOY_DIR      = '/home/admin/projects/test_api'
+        // Prilagodi putanju ako se promenila (vidim da je sada /projects/ umesto /deploy/)
+        DEPLOY_DIR      = '/home/admin/projects/test_api' // <<< PROVERI DA LI JE OVO TAČNA PUTANJA SADA
         COMPOSE_FILE    = "${DEPLOY_DIR}/docker-compose.yml"
         APP_IMAGE_NAME  = 'test-api'
         DEV_TAG         = 'dev'
@@ -18,7 +17,7 @@ pipeline {
     triggers {
         GenericTrigger(
             genericVariables: [],
-            token: 'vmqX7pvx_YAxdx3UR*Tb', // <<< STAVI SVOJ PRAVI TOKEN OVDE
+            token: 'sifraZaWebhook123!', // <<< STAVI SVOJ PRAVI TOKEN OVDE
             printPostContent: true,
             printContributedVariables: true,
             causeString: 'Pokrenuto Webhook-om sa GitHub-a'
@@ -29,10 +28,33 @@ pipeline {
         stage('Checkout Koda na PI3') {
             steps {
                 sshagent(credentials: [SSH_CRED_ID]) {
-                    sh "ssh -o StrictHostKeyChecking=no ${PI3_USER}@${PI3_HOST} 'cd ${DEPLOY_DIR} && git checkout ${DEV_TAG} && git pull origin ${DEV_TAG}'"
+                    // Komanda sada proverava, klonira ako treba, ili radi FORCE RESET i pull ako postoji.
+                    sh """
+                       ssh -o StrictHostKeyChecking=no ${PI3_USER}@${PI3_HOST} ' \\
+                         echo "Ensuring directory structure and code checkout..."; \\
+                         mkdir -p ${DEPLOY_DIR%/*} && \\
+                         if [ ! -d "${DEPLOY_DIR}/.git" ]; then \\
+                           echo "Directory ${DEPLOY_DIR} not found or not a git repo. Cloning..."; \\
+                           rm -rf ${DEPLOY_DIR}; \\
+                           git clone https://github.com/tomasovic/test_api.git ${DEPLOY_DIR}; \\
+                           cd ${DEPLOY_DIR} && echo "Checking out branch ${DEV_TAG}..." && git checkout ${DEV_TAG}; \\
+                         else \\
+                           echo "Repository found in ${DEPLOY_DIR}. Force resetting and pulling updates for branch ${DEV_TAG}..."; \\
+                           cd ${DEPLOY_DIR} && \\
+                           echo "Checking out branch ${DEV_TAG}..." && git checkout ${DEV_TAG} && \\
+                           echo "Fetching latest changes from origin..." && git fetch origin && \\
+                           echo "Resetting local state to match origin/${DEV_TAG}..." && git reset --hard origin/${DEV_TAG} && \\
+                           echo "Pulling latest changes (should be up-to-date)..." && git pull origin ${DEV_TAG} && \\
+                           echo "Cleaning untracked files..." && git clean -fdx; \\
+                         fi; \\
+                         echo "Checkout/Update complete." \\
+                       '
+                    """
+                    // git clean -fdx uklanja sve fajlove koji NISU praćeni Git-om - OPREZNO ako imaš važne fajlove u tom diru koji NISU u gitu!
                 }
             }
         }
+
 
         stage('Build Docker Image na PI3') {
             steps {
