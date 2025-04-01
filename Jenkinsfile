@@ -6,7 +6,7 @@ pipeline {
 
     // Definišemo parametre koji se koriste u pipeline-u
     environment {
-        DEPLOY_DIR      = '/home/admin/deploy/test_api'
+        DEPLOY_DIR      = '/home/admin/projects/test_api'
         COMPOSE_FILE    = "${DEPLOY_DIR}/docker-compose.yml"
         APP_IMAGE_NAME  = 'test-api'
         DEV_TAG         = 'dev'
