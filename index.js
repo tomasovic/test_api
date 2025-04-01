@@ -3,7 +3,7 @@ const app = express();
 const port = 5000;
 
 app.get("/", (req, res) => {
-  res.send("MILAN podesavanje Jenkins, CICD, Docker, Kubernetes");
+  res.send("Podesio sam opet, moram na posao!");
 });
 
 app.listen(port, () => {
