@@ -16,7 +16,7 @@ pipeline { // ZAGRADA 1 OTVORENA
     triggers {
         GenericTrigger(
             genericVariables: [],
-            token: 'sifraZaWebhook123!', // <<< STAVI SVOJ PRAVI TOKEN OVDE
+            token: 'vmqX7pvx_YAxdx3UR*Tb', // <<< STAVI SVOJ PRAVI TOKEN OVDE
             printPostContent: true,
             printContributedVariables: true,
             causeString: 'Pokrenuto Webhook-om sa GitHub-a'
