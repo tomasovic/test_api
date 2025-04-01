@@ -17,7 +17,7 @@ pipeline {
     triggers { // <-- Trigger je sada aktivan
         GenericTrigger(
             genericVariables: [],
-            token: 'sifraZaWebhook123!',  // <<< ZAMENI OVO TVOJIM PRAVIM TOKENOM
+            token: 'vmqX7pvx_YAxdx3UR*Tb',  // <<< ZAMENI OVO TVOJIM PRAVIM TOKENOM
             printPostContent: true,
             printContributedVariables: true,
             causeString: 'Pokrenuto Webhook-om sa GitHub-a'
