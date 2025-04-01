@@ -1,4 +1,4 @@
-// Jenkinsfile (korigovano za checkout sa resetom, agent i ZAVRSNU ZAGRADU)
+// Jenkinsfile (korigovano za checkout, agent i bez komentara na kraju)
 
 pipeline { // ZAGRADA 1 OTVORENA
     agent any
@@ -85,6 +85,6 @@ pipeline { // ZAGRADA 1 OTVORENA
         failure {
             echo 'CI/CD Pipeline NEUSPESAN!'
         }
-    } // ZAGRADA 3 ZATVORENA
+    }
 
-} // ZAGRADA 1 ZATVORENA <-- OVA JE NEDOSTAJALA
+}
