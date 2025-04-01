@@ -1,4 +1,4 @@
-// Jenkinsfile (Test: Struktura Stages i Post)
+// Jenkinsfile (Test: Vraćen Cleanup Stage)
 pipeline {
     agent any
 
@@ -10,7 +10,7 @@ pipeline {
         PI3_HOST        = '192.168.64.132'
         PI3_USER        = 'admin'
         SSH_CRED_ID     = 'jenkins-pi3-ssh-key'
-        // TOKEN           = 'sifraZaWebhook123!' // Token nam još ne treba
+        // TOKEN           = 'sifraZaWebhook123!'
     }
 
     // Bez triggers bloka za sada
@@ -19,28 +19,26 @@ pipeline {
         stage('Checkout Koda na PI3') {
             steps {
                 echo "Simulacija: Checkout Koda na PI3"
-                // Ovde bi inače išao sshagent i sh komanda
             }
         }
 
         stage('Build Docker Image na PI3') {
             steps {
                 echo "Simulacija: Build Docker Image na PI3"
-                // Ovde bi inače išao sshagent i sh komanda
             }
         }
 
         stage('Deploy na PI3') {
             steps {
                 echo "Simulacija: Deploy na PI3"
-                // Ovde bi inače išao sshagent i sh komanda
             }
         }
 
-        stage('Cleanup na PI3') {
+        stage('Cleanup na PI3') { // <-- VRAĆAMO PRAVU LOGIKU OVDE
             steps {
-                echo "Simulacija: Cleanup na PI3"
-                // Ovde bi inače išao sshagent i sh komanda
+                sshagent(credentials: [SSH_CRED_ID]) {
+                    sh "ssh -o StrictHostKeyChecking=no ${PI3_USER}@${PI3_HOST} 'docker image prune -af'"
+                }
             }
         }
     } // Kraj stages
