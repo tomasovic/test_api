@@ -1,4 +1,4 @@
-// Jenkinsfile (korigovano za checkout sa resetom, agent i ZAVRSNU ZAGRADU)
+// Jenkinsfile (korigovano za checkout, agent i bez komentara na kraju)
 
 pipeline { // ZAGRADA 1 OTVORENA
     agent any
@@ -16,7 +16,7 @@ pipeline { // ZAGRADA 1 OTVORENA
     triggers {
         GenericTrigger(
             genericVariables: [],
-            token: 'vmqX7pvx_YAxdx3UR*Tb', // <<< STAVI SVOJ PRAVI TOKEN OVDE
+            token: 'sifraZaWebhook123!', // <<< STAVI SVOJ PRAVI TOKEN OVDE
             printPostContent: true,
             printContributedVariables: true,
             causeString: 'Pokrenuto Webhook-om sa GitHub-a'
@@ -87,4 +87,4 @@ pipeline { // ZAGRADA 1 OTVORENA
         }
     } // ZAGRADA 3 ZATVORENA
 
-} // ZAGRADA 1 ZATVORENA <-- OVA JE NEDOSTAJALA
+} // ZAGRADA 1 ZATVORENA
