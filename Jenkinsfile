@@ -7,7 +7,7 @@ pipeline {
     environment {
         // Putanja do direktorijuma na PI3 gde se nalazi kod i docker-compose.yml
         // Proveri da li je ovo tačna putanja koju koristiš na PI3
-        DEPLOY_DIR      = '/home/admin/deploy/test_api'
+        DEPLOY_DIR      = '/home/admin/projects/test_api'
         // Puno ime compose fajla na PI3
         COMPOSE_FILE    = "${DEPLOY_DIR}/docker-compose.yml"
         // Naziv Docker image-a koji ćemo buildati (bez taga)
@@ -30,7 +30,7 @@ pipeline {
                 // Opciono: Možemo izvući podatke iz GitHuba, npr. ime grane
                 // [key: 'GIT_BRANCH', jsonPath: '$.ref', regexpFilter: 'refs/heads/(.*)']
             ],
-            token: 'TVOJ_TAJNI_TOKEN', // <<< ZAMENI OVO SA SIGURNIM TOKENOM PO IZBORU
+            token: 'vmqX7pvx_YAxdx3UR*Tb', // <<< ZAMENI OVO SA SIGURNIM TOKENOM PO IZBORU
             printPostContent: true,
             printContributedVariables: true,
             causeString: 'Pokrenuto Webhook-om sa GitHub-a'
