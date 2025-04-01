@@ -1,4 +1,4 @@
-// Jenkinsfile (Test: Vraćen Cleanup i Deploy Stage)
+// Jenkinsfile (Test: Vraćen Build, Deploy, Cleanup Stage)
 pipeline {
     agent any
 
@@ -18,17 +18,19 @@ pipeline {
     stages {
         stage('Checkout Koda na PI3') {
             steps {
-                echo "Simulacija: Checkout Koda na PI3"
+                echo "Simulacija: Checkout Koda na PI3" // OVO JOŠ UVEK SIMULIRAMO
             }
         }
 
-        stage('Build Docker Image na PI3') {
+        stage('Build Docker Image na PI3') { // <-- VRAĆAMO PRAVU LOGIKU OVDE
             steps {
-                echo "Simulacija: Build Docker Image na PI3"
+                sshagent(credentials: [SSH_CRED_ID]) {
+                    sh "ssh -o StrictHostKeyChecking=no ${PI3_USER}@${PI3_HOST} 'cd ${DEPLOY_DIR} && docker build -t ${APP_IMAGE_NAME}:${DEV_TAG} .'"
+                }
             }
         }
 
-        stage('Deploy na PI3') { // <-- VRAĆAMO PRAVU LOGIKU OVDE
+        stage('Deploy na PI3') { // <-- OVAJ JE VEĆ VRAĆEN
             steps {
                 sshagent(credentials: [SSH_CRED_ID]) {
                     sh "ssh -o StrictHostKeyChecking=no ${PI3_USER}@${PI3_HOST} 'cd ${DEPLOY_DIR} && docker compose -f ${COMPOSE_FILE} down'"
