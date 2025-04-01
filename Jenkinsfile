@@ -1,4 +1,4 @@
-// Jenkinsfile (Test: Aktivni Trigger, Jednostavan Checkout)
+// Jenkinsfile (Poziva eksternu checkout skriptu)
 
 pipeline {
     agent any
@@ -11,13 +11,13 @@ pipeline {
         PI3_HOST        = '192.168.64.132'     // Proveri IP
         PI3_USER        = 'admin'
         SSH_CRED_ID     = 'jenkins-pi3-ssh-key'  // Proveri ID Kredencijala
+        REPO_URL        = 'https://github.com/tomasovic/test_api.git' // URL tvog repoa
     }
 
     triggers { // <-- Trigger je sada aktivan
         GenericTrigger(
             genericVariables: [],
-            // VRLO VAŽNO: Unesi isti token koji si podesio u Jenkins Job konfiguraciji!
-            token: 'vmqX7pvx_YAxdx3UR*Tb',  // <<< ZAMENI OVO TVOJIM PRAVIM TOKENOM
+            token: 'sifraZaWebhook123!',  // <<< ZAMENI OVO TVOJIM PRAVIM TOKENOM
             printPostContent: true,
             printContributedVariables: true,
             causeString: 'Pokrenuto Webhook-om sa GitHub-a'
@@ -25,9 +25,13 @@ pipeline {
     }
 
     stages {
-        stage('Checkout Koda na PI3') { // <-- VRAĆAMO NA ECHO
+        stage('Checkout Koda na PI3') { // <-- IZMENJEN STEPS BLOK
             steps {
-                echo "Simulacija: Checkout Koda na PI3"
+                sshagent(credentials: [SSH_CRED_ID]) {
+                    // Pozivamo bash skriptu koja se nalazi u repou
+                    // Prosleđujemo argumente: $1=REPO_URL, $2=DEPLOY_DIR, $3=DEV_TAG
+                    sh "ssh -o StrictHostKeyChecking=no ${PI3_USER}@${PI3_HOST} 'bash ${DEPLOY_DIR}/deploy/checkout_or_clone.sh ${REPO_URL} ${DEPLOY_DIR} ${DEV_TAG}'"
+                }
             }
         }
 
@@ -57,9 +61,9 @@ pipeline {
         }
     } // Kraj stages
 
-    post {
+    post { // <-- Ovo je radilo
         success {
-            echo 'CI/CD Pipeline zavrsen uspesno!' // Izmenjeno radi jasnoće testa
+            echo 'CI/CD Pipeline zavrsen uspesno!'
         }
         failure {
             echo 'CI/CD Pipeline NEUSPESAN!'
