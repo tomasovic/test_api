@@ -85,6 +85,6 @@ pipeline { // ZAGRADA 1 OTVORENA
         failure {
             echo 'CI/CD Pipeline NEUSPESAN!'
         }
-    } // ZAGRADA 3 ZATVORENA
+    }
 
-} // ZAGRADA 1 ZATVORENA
+}
