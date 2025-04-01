@@ -1,0 +1,15 @@
+# .github/workflows/notify-jenkins.yml
+name: Notify Jenkins on Dev Push
+
+on:
+  push:
+    branches:
+      - dev # Okida se samo na push na 'dev' granu
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest # Izvršava se na GitHub serverima
+    steps:
+      - name: Send webhook notification to Jenkins
+        # Koristi secret koji smo definisali u GitHub podešavanjima
+        run: curl -X POST ${{ secrets.JENKINS_WEBHOOK_URL }}
