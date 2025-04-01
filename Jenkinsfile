@@ -1,4 +1,4 @@
-// Jenkinsfile (Test: Minimal + Environment)
+// Jenkinsfile (Test: Struktura Stages i Post)
 pipeline {
     agent any
 
@@ -10,17 +10,48 @@ pipeline {
         PI3_HOST        = '192.168.64.132'
         PI3_USER        = 'admin'
         SSH_CRED_ID     = 'jenkins-pi3-ssh-key'
-        // Token nam sada ne treba jer nema triggers bloka
-        // TOKEN           = 'sifraZaWebhook123!'
+        // TOKEN           = 'sifraZaWebhook123!' // Token nam još ne treba
     }
 
+    // Bez triggers bloka za sada
+
     stages {
-        stage('Placeholder') { // Samo da stages blok ne bude prazan
+        stage('Checkout Koda na PI3') {
             steps {
-                echo "Environment block parsed successfully."
+                echo "Simulacija: Checkout Koda na PI3"
+                // Ovde bi inače išao sshagent i sh komanda
+            }
+        }
+
+        stage('Build Docker Image na PI3') {
+            steps {
+                echo "Simulacija: Build Docker Image na PI3"
+                // Ovde bi inače išao sshagent i sh komanda
+            }
+        }
+
+        stage('Deploy na PI3') {
+            steps {
+                echo "Simulacija: Deploy na PI3"
+                // Ovde bi inače išao sshagent i sh komanda
+            }
+        }
+
+        stage('Cleanup na PI3') {
+            steps {
+                echo "Simulacija: Cleanup na PI3"
+                // Ovde bi inače išao sshagent i sh komanda
             }
         }
     } // Kraj stages
 
-    // Bez post bloka za sada
+    post {
+        success {
+            echo 'CI/CD Pipeline (Simulacija) zavrsen uspesno!'
+        }
+        failure {
+            echo 'CI/CD Pipeline (Simulacija) NEUSPESAN!'
+        }
+    } // Kraj post
+
 } // Kraj pipeline
