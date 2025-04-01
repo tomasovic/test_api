@@ -1,10 +1,9 @@
-// Jenkinsfile (korigovano za checkout sa resetom i agent)
+// Jenkinsfile (korigovano za checkout sa resetom, agent i ZAVRSNU ZAGRADU)
 
-pipeline {
+pipeline { // ZAGRADA 1 OTVORENA
     agent any
 
     environment {
-        // Prilagodi putanju ako se promenila (vidim da je sada /projects/ umesto /deploy/)
         DEPLOY_DIR      = '/home/admin/projects/test_api' // <<< PROVERI DA LI JE OVO TAČNA PUTANJA SADA
         COMPOSE_FILE    = "${DEPLOY_DIR}/docker-compose.yml"
         APP_IMAGE_NAME  = 'test-api'
@@ -24,11 +23,10 @@ pipeline {
         )
     }
 
-    stages {
+    stages { // ZAGRADA 2 OTVORENA
         stage('Checkout Koda na PI3') {
             steps {
                 sshagent(credentials: [SSH_CRED_ID]) {
-                    // Komanda sada proverava, klonira ako treba, ili radi FORCE RESET i pull ako postoji.
                     sh """
                        ssh -o StrictHostKeyChecking=no ${PI3_USER}@${PI3_HOST} ' \\
                          echo "Ensuring directory structure and code checkout..."; \\
@@ -50,11 +48,9 @@ pipeline {
                          echo "Checkout/Update complete." \\
                        '
                     """
-                    // git clean -fdx uklanja sve fajlove koji NISU praćeni Git-om - OPREZNO ako imaš važne fajlove u tom diru koji NISU u gitu!
                 }
             }
         }
-
 
         stage('Build Docker Image na PI3') {
             steps {
@@ -80,14 +76,15 @@ pipeline {
                 }
             }
         }
-    }
+    } // ZAGRADA 2 ZATVORENA
 
-    post {
+    post { // ZAGRADA 3 OTVORENA
         success {
             echo 'CI/CD Pipeline zavrsen uspesno!'
         }
         failure {
             echo 'CI/CD Pipeline NEUSPESAN!'
         }
-    }
-}
+    } // ZAGRADA 3 ZATVORENA
+
+} // ZAGRADA 1 ZATVORENA <-- OVA JE NEDOSTAJALA
