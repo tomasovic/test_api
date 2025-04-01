@@ -1,10 +1,9 @@
-// Jenkinsfile (Puna verzija - Korigovana sintaksa)
+// Jenkinsfile (Sa komentarisanim triggers blokom)
 
 pipeline {
     agent any
 
     environment {
-        // Proveri da li je ovo tačna putanja koju želiš na PI3
         DEPLOY_DIR      = '/home/admin/projects/test_api'
         COMPOSE_FILE    = "${DEPLOY_DIR}/docker-compose.yml"
         APP_IMAGE_NAME  = 'test-api'
@@ -14,6 +13,7 @@ pipeline {
         SSH_CRED_ID     = 'jenkins-pi3-ssh-key'
     }
 
+    /* <-- POČETAK KOMENTARA
     triggers {
         GenericTrigger(
             genericVariables: [],
@@ -23,6 +23,7 @@ pipeline {
             causeString: 'Pokrenuto Webhook-om sa GitHub-a'
         )
     }
+    */ // <-- KRAJ KOMENTARA
 
     stages {
         stage('Checkout Koda na PI3') {
