@@ -1,11 +1,9 @@
-# docker-compose.yml (u test_api repo-u)
+# docker-compose.yml (u test_api repo-u - BEZ LABELA)
 services:
   test-api:
-    # Koristi image koji Jenkins builda sa tagom 'dev'
     image: test-api:dev
     container_name: test-api
     restart: unless-stopped
     ports:
-      # Ostavi mapiranje porta koje smo ranije podesili
-      - "3001:5000" # HOST_PORT:CONTAINER_PORT (proveri da li je 5000 ispravan interni port aplikacije)
-    # Ovde ćemo kasnije dodati Traefik labele (u Fazi 4)
+      - "3001:5000" # HOST_PORT:CONTAINER_PORT
+    # Obrisana labels: sekcija
