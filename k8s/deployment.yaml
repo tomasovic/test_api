@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: test-api
-        image: ghcr.io/tomasovic/test_api:latest
+        image: ghcr.io/tomasovic/test_api:82e2ca7a97ec6d214995f70d029696b60a4c4c19
         ports:
         - containerPort: 3000
         env:
