@@ -1,20 +1,14 @@
-# Use Node.js LTS (Long Term Support) version
-FROM node:20-slim
+FROM node:20-alpine
 
-# Create app directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Copy package files
 COPY package*.json ./
+RUN npm install --production
 
-# Install dependencies
-RUN npm install
+COPY src/ ./src/
 
-# Copy app source
-COPY . .
-
-# Expose the port the app runs on
 EXPOSE 3000
 
-# Command to run the application
-CMD [ "node", "index.js" ] 
+USER node
+
+CMD ["npm", "start"]
